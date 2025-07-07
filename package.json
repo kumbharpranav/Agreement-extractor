@@ -1,0 +1,18 @@
+{
+  "name": "gemini-erp-importer",
+  "version": "1.0.0",
+  "description": "Interactive website to extract data from agreement images and export to Excel.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.1.0",
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.3.1",
+    "exceljs": "^4.4.0",
+    "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1",
+    "three": "^0.160.0"
+  }
+}

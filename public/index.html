@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gemini ERP Importer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="bg"></canvas>
+  <div class="container">
+    <h1>Gemini ERP Importer</h1>
+    <div class="form-container">
+      <div class="form-section">
+        <h2>1. Select Agreement Type</h2>
+        <select id="agreement-type-select"></select>
+        <button id="add-agreement-type-btn">Add New Type</button>
+      </div>
+      <div id="new-agreement-type-form" class="hidden">
+        <h2>Create New Agreement Type</h2>
+        <input type="text" id="new-agreement-type-name" placeholder="Agreement Type Name">
+        <input type="text" id="new-agreement-type-fields" placeholder="Fields (comma-separated)">
+        <button id="save-agreement-type-btn">Save</button>
+      </div>
+      <div class="form-section">
+        <h2>2. Upload Images</h2>
+        <input type="file" id="image-upload" multiple>
+      </div>
+      <div class="form-section">
+        <h2>3. Extract and Download</h2>
+        <button id="extract-btn">Extract Data</button>
+      </div>
+    </div>
+    <div id="loading" class="hidden">Processing...</div>
+    <div id="download-container" class="hidden">
+      <a id="download-link" download="extracted_data.xlsx">Download Excel</a>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -3,7 +3,7 @@ services:
     name: gemini-erp-importer
     env: node
     plan: free
-    buildCommand: npm install
+    buildCommand: npm install && npm run build:css
     startCommand: npm start
     envVars:
       - key: GEMINI_API_KEY

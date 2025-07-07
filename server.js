@@ -12,6 +12,7 @@ const port = process.env.PORT || 3000;
 // Middleware
 app.use(bodyParser.json());
 app.use(express.static('public'));
+app.use('/css', express.static(__dirname + '/public/css'));
 
 // Gemini API setup
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);

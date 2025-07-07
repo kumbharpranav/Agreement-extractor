@@ -4,7 +4,8 @@
   "description": "Interactive website to extract data from agreement images and export to Excel.",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "build:css": "tailwindcss -i ./public/css/input.css -o ./public/css/style.css"
   },
   "dependencies": {
     "@google/generative-ai": "^0.1.0",

@@ -1,50 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gemini Agreement Extractor</title>
-  <link href="/css/style.css" rel="stylesheet">
-</head>
-<body class="bg-gray-900 text-white">
-  <canvas id="bg"></canvas>
-  <div id="app" class="relative z-10 flex items-center justify-center min-h-screen">
-    <!-- Step 1: Select Agreement Type -->
-    <div id="step-1" class="step p-8 bg-gray-800 bg-opacity-75 rounded-lg shadow-lg text-center">
-      <h2 class="text-2xl font-bold mb-4">Select Agreement Type</h2>
-      <select id="agreement-type-select" class="w-full p-2 rounded bg-gray-700 text-white"></select>
-      <button id="add-agreement-type-btn" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add New Type</button>
-      <button id="next-step-1" class="mt-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Next</button>
-    </div>
-
-    <!-- Step 2: Create New Agreement Type -->
-    <div id="step-2" class="step hidden p-8 bg-gray-800 bg-opacity-75 rounded-lg shadow-lg">
-      <h2 class="text-2xl font-bold mb-4">Create New Agreement Type</h2>
-      <input type="text" id="new-agreement-type-name" placeholder="Agreement Type Name" class="w-full p-2 rounded bg-gray-700 text-white mb-4">
-      <input type="text" id="new-agreement-type-fields" placeholder="Fields (comma-separated)" class="w-full p-2 rounded bg-gray-700 text-white mb-4">
-      <button id="save-agreement-type-btn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Save</button>
-      <button id="back-step-2" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Back</button>
-    </div>
-
-    <!-- Step 3: Upload Images -->
-    <div id="step-3" class="step hidden p-8 bg-gray-800 bg-opacity-75 rounded-lg shadow-lg text-center">
-      <h2 class="text-2xl font-bold mb-4">Upload Images</h2>
-      <input type="file" id="image-upload" multiple class="w-full p-2 rounded bg-gray-700 text-white">
-      <button id="extract-btn" class="mt-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Extract Data</button>
-      <button id="back-step-3" class="mt-4 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Back</button>
-    </div>
-
-    <!-- Loading and Download -->
-    <div id="loading" class="step hidden p-8 bg-gray-800 bg-opacity-75 rounded-lg shadow-lg text-center">
-      <p>Processing...</p>
-    </div>
-    <div id="download-container" class="step hidden p-8 bg-gray-800 bg-opacity-75 rounded-lg shadow-lg text-center">
-      <a id="download-link" download="extracted_data.xlsx" class="text-blue-400 hover:underline">Download Excel</a>
-      <button id="restart-btn" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Start Over</button>
-    </div>
-  </div>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="/script.js"></script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <title>React App</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
 </html>

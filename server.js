@@ -5,6 +5,7 @@ const multer = require('multer');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const ExcelJS = require('exceljs');
 const fs = require('fs');
+const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -55,7 +56,7 @@ app.post('/api/extract', upload.array('images'), async (req, res) => {
     }
 
     const model = genAI.getGenerativeModel({ model: 'gemini-pro-vision' });
-    const prompt = `Extract the following fields from the attached images for a ${agreementType}: ${fields.join(', ')}. Return the data in a JSON format with the field names as keys.`;
+    const prompt = `Analyze the attached images of a ${agreementType}. Extract the following fields: ${fields.join(', ')}. Your response MUST be a single, valid JSON object. Do not include any text, explanations, or markdown formatting before or after the JSON object. The JSON keys should be the field names provided.`;
     const imageParts = images.map(image => ({
       inlineData: {
         data: Buffer.from(fs.readFileSync(image.path)).toString('base64'),

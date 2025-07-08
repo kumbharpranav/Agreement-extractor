@@ -44,8 +44,8 @@ app.post('/api/extract', upload.array('images'), async (req, res) => {
       return res.status(400).json({ message: 'Invalid request. Fields and images are required.' });
     }
 
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
-    const prompt = `Analyze the attached images. Extract the following fields: ${fields.join(', ')}. Your response MUST be a single, valid JSON object. Do not include any text, explanations, or markdown formatting before or after the JSON object. The JSON keys should be the field names provided.`;
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const prompt = `Analyze the attached images. Extract the following fields: ${fields.join(', ')}. Your response MUST be a single, valid JSON array of objects. Each object in the array should represent one extracted record. Do not include any text, explanations, or markdown formatting before or after the JSON array. The JSON keys should be the field names provided.`;
     const imageParts = images.map(image => ({
       inlineData: {
         data: Buffer.from(fs.readFileSync(image.path)).toString('base64'),
@@ -58,7 +58,12 @@ app.post('/api/extract', upload.array('images'), async (req, res) => {
     const text = response.text();
     let extractedData;
     try {
-      extractedData = JSON.parse(text.replace(/```json\n|```/g, ''));
+      const rawText = text.replace(/```json\n|```/g, '');
+      extractedData = JSON.parse(rawText);
+      // Ensure extractedData is an array, even if only one object is returned
+      if (!Array.isArray(extractedData)) {
+        extractedData = [extractedData];
+      }
     } catch (jsonError) {
       console.error('Failed to parse JSON from Gemini API:', text, jsonError);
       return res.status(500).json({ message: 'Failed to parse data from AI. Please try again.' });
@@ -68,7 +73,11 @@ app.post('/api/extract', upload.array('images'), async (req, res) => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Extracted Data');
     worksheet.columns = fields.map(field => ({ header: field, key: field }));
-    worksheet.addRow(extractedData);
+
+    // Add each extracted record as a row
+    extractedData.forEach(record => {
+      worksheet.addRow(record);
+    });
 
     const excelBuffer = await workbook.xlsx.writeBuffer();
     res.type('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

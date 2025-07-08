@@ -10,6 +10,12 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Ensure uploads directory exists
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
 // Middleware
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'build')));
@@ -50,7 +56,13 @@ app.post('/api/extract', upload.array('images'), async (req, res) => {
     const result = await model.generateContent([prompt, ...imageParts]);
     const response = await result.response;
     const text = response.text();
-    const extractedData = JSON.parse(text.replace(/```json\n|```/g, ''));
+    let extractedData;
+    try {
+      extractedData = JSON.parse(text.replace(/```json\n|```/g, ''));
+    } catch (jsonError) {
+      console.error('Failed to parse JSON from Gemini API:', text, jsonError);
+      return res.status(500).json({ message: 'Failed to parse data from AI. Please try again.' });
+    }
 
     // Create Excel file
     const workbook = new ExcelJS.Workbook();
@@ -72,5 +84,5 @@ app.post('/api/extract', upload.array('images'), async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  console.log(`Server is running and listening on port ${port}`);
 });

@@ -4,7 +4,8 @@
   "description": "Interactive website to extract data from agreement images and export to Excel.",
   "main": "server.js",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node server.js",
+    "dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

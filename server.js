@@ -25,43 +25,21 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 // Multer setup for file uploads
 const upload = multer({ dest: 'uploads/' });
 
-// In-memory storage for agreement types and fields
-let agreementTypes = {
-  'Rental Agreement': ['Name', 'Address', 'Rent Amount'],
-  'Sale Deed': ['Buyer Name', 'Seller Name', 'Property Address', 'Sale Amount']
-};
-
 // API Endpoints
-app.get('/api/agreement-types', (req, res) => {
-  res.json(agreementTypes);
-});
-
-app.post('/api/agreement-types', (req, res) => {
-  const { name, fields } = req.body;
-  if (name && fields) {
-    agreementTypes[name] = fields;
-    saveAgreementTypes();
-    res.status(201).json({ message: 'Agreement type created successfully.' });
-  } else {
-    res.status(400).json({ message: 'Invalid request. Please provide name and fields.' });
-  }
-});
-
 app.post('/api/extract', upload.array('images'), async (req, res) => {
   try {
-    const { agreementType } = req.body;
-    const fields = agreementTypes[agreementType];
+    const fields = JSON.parse(req.body.fields);
     const images = req.files.map(file => ({
       path: file.path,
       mimeType: file.mimetype
     }));
 
-    if (!fields || !images || images.length === 0) {
-      return res.status(400).json({ message: 'Invalid request.' });
+    if (!fields || fields.length === 0 || !images || images.length === 0) {
+      return res.status(400).json({ message: 'Invalid request. Fields and images are required.' });
     }
 
     const model = genAI.getGenerativeModel({ model: 'gemini-pro-vision' });
-    const prompt = `Analyze the attached images of a ${agreementType}. Extract the following fields: ${fields.join(', ')}. Your response MUST be a single, valid JSON object. Do not include any text, explanations, or markdown formatting before or after the JSON object. The JSON keys should be the field names provided.`;
+    const prompt = `Analyze the attached images. Extract the following fields: ${fields.join(', ')}. Your response MUST be a single, valid JSON object. Do not include any text, explanations, or markdown formatting before or after the JSON object. The JSON keys should be the field names provided.`;
     const imageParts = images.map(image => ({
       inlineData: {
         data: Buffer.from(fs.readFileSync(image.path)).toString('base64'),

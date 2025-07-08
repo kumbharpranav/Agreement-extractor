@@ -1,0 +1,5 @@
+{
+  "Rental Agreement": ["Name", "Address", "Rent Amount", "Lease Term"],
+  "Sale Deed": ["Buyer Name", "Seller Name", "Property Address", "Sale Amount", "Date of Sale"],
+  "Service Contract": ["Client Name", "Service Provided", "Date", "Amount"]
+}

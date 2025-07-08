@@ -18,7 +18,6 @@ app.use(express.static(path.join(__dirname, 'build')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
-app.use('/css', express.static(__dirname + '/public/css'));
 
 // Gemini API setup
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
@@ -41,6 +40,7 @@ app.post('/api/agreement-types', (req, res) => {
   const { name, fields } = req.body;
   if (name && fields) {
     agreementTypes[name] = fields;
+    saveAgreementTypes();
     res.status(201).json({ message: 'Agreement type created successfully.' });
   } else {
     res.status(400).json({ message: 'Invalid request. Please provide name and fields.' });

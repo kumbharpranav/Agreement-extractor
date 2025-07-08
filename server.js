@@ -12,7 +12,12 @@ const port = process.env.PORT || 3000;
 
 // Middleware
 app.use(bodyParser.json());
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'build')));
+
+// Serve React App
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 app.use('/css', express.static(__dirname + '/public/css'));
 
 // Gemini API setup

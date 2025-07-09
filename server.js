@@ -45,7 +45,7 @@ app.post('/api/extract', upload.array('images'), async (req, res) => {
     }
 
     const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
-    const prompt = `You are a Legal expert. Analyze carefully the attached agreement images (Carefully analyse the human writing). Extract the following fields(if found multiple data of same field, then enter it in new rows): ${fields.join(', ')}. Your response MUST be a single, valid JSON array of objects. Each object in the array should represent one extracted record. Do not include any text, explanations, or markdown formatting before or after the JSON array. The JSON keys should be the field names provided.`;
+    const prompt = `You are a Legal expert. Analyze carefully the attached agreement images (Carefully analyse the human writing). Ensure that data in a row is related to that person(name). Take all data into consideration and Extract the following fields(if found multiple data of same field, then enter it in new rows): ${fields.join(', ')}. Your response MUST be a single, valid JSON array of objects. Each object in the array should represent one extracted record. Do not include any text, explanations, or markdown formatting before or after the JSON array. The JSON keys should be the field names provided.`;
     const imageParts = images.map(image => ({
       inlineData: {
         data: Buffer.from(fs.readFileSync(image.path)).toString('base64'),

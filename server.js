@@ -44,7 +44,7 @@ app.post('/api/extract', upload.array('images'), async (req, res) => {
       return res.status(400).json({ message: 'Invalid request. Fields and images are required.' });
     }
 
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-thinking' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
     const prompt = `Analyze the attached agreement images. Extract the following fields: ${fields.join(', ')}. Your response MUST be a single, valid JSON array of objects. Each object in the array should represent one extracted record. Do not include any text, explanations, or markdown formatting before or after the JSON array. The JSON keys should be the field names provided.`;
     const imageParts = images.map(image => ({
       inlineData: {
